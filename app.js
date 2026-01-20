@@ -1,6 +1,4 @@
-// === Safe final app.js — paste over your current file ===
-
-const contractAddress = "0xfBefA1127Fedf77f460Ee942a7d911728ad894aC";
+const contractAddress = "0xAa3b408Ab194eE78892B600031Da26a08423dfa9";
 const contractABI = [
   {"inputs":[],"stateMutability":"nonpayable","type":"constructor"},
   {"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"newUser","type":"address"}],"name":"AuthorityGranted","type":"event"},
@@ -24,11 +22,11 @@ const contractABI = [
 let provider, signer, contract, owner, currentUserAddress, isAuthorizedFlag;
 let wsInitialized = false;
 
-// Basic safety: ensure DOM elements exist before using them
+
 function $id(id){ return document.getElementById(id); }
 
 window.addEventListener('load', async () => {
-    // DOM Elements (may exist from your index.html)
+
     const connectButton = $id('connectButton');
     const statusDiv = $id('status');
     const blockNumberDiv = $id('blockNumber');
@@ -56,23 +54,22 @@ window.addEventListener('load', async () => {
     if (typeof window.ethereum === 'undefined') {
         if (statusDiv) statusDiv.innerText = 'MetaMask not detected. Install/enable MetaMask and reload.';
         console.warn('window.ethereum not detected - MetaMask missing or disabled.');
-        // still attach Connect button handler that shows fallback message in case user installs later
+        
         if (connectButton) connectButton.addEventListener('click', () => {
             alert('MetaMask not found. Install MetaMask extension and reload the page.');
         });
-        return; // stop — nothing else will work without provider
+        return;
     }
 
-    // Attach connect listener early so nothing can block it
+    
     if (connectButton) connectButton.addEventListener('click', updateConnectionStatus);
 
-    // Make sure All Certificates panel is visible (it was hidden earlier)
+    
     if (allCertificatesPanel) allCertificatesPanel.style.display = 'block';
 
-    // Dynamic owner controls injection (no index.html change required)
     function addOwnerControls() {
         if (!adminPanel) return;
-        if ($id('revokeAuthorityForm')) return; // already added
+        if ($id('revokeAuthorityForm')) return; 
 
         const revokeAuthForm = document.createElement('form');
         revokeAuthForm.id = 'revokeAuthorityForm';
@@ -130,10 +127,10 @@ window.addEventListener('load', async () => {
         });
     }
 
-    // Connect + initialize provider + contract
+    
     async function updateConnectionStatus() {
         try {
-            // request accounts
+            
             await window.ethereum.request({ method: 'eth_requestAccounts' });
             provider = new ethers.providers.Web3Provider(window.ethereum);
             signer = provider.getSigner();
@@ -433,3 +430,4 @@ window.addEventListener('load', async () => {
     if (statusDiv && !statusDiv.innerText) statusDiv.innerText = 'Not Connected';
 
 }); 
+
